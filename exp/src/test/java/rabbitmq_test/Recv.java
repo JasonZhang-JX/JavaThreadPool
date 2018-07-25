@@ -27,6 +27,8 @@ public class Recv {
         channel.queueDeclare(QUEUE_NAME, false, false, false, null);
         System.out.println(" [*] Waiting for messages. To exit press CTRL+C");
 
+        //定义每次从队列中获取的数量
+        channel.basicQos(1);
 
         Consumer consumer = new DefaultConsumer(channel) {
             @Override
@@ -34,7 +36,10 @@ public class Recv {
                                        AMQP.BasicProperties properties, byte[] body)
                     throws IOException {
                 String message = new String(body, "UTF-8");
-                System.out.println(" [x] Received '" + message + "'");
+                //获取包头信息,比如获取correlationId
+                String correlationId =  properties.getCorrelationId();
+
+                System.out.println(" [x] Received '" + message + "'  " + "correlationId: " + correlationId);
             }
         };
         channel.basicConsume(QUEUE_NAME, true, consumer);
