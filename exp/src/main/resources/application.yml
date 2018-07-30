@@ -1,0 +1,41 @@
+server:
+    tomcat:
+        uri-encoding: UTF-8
+        max-threads: 1000
+        min-spare-threads: 30
+    port: 8383
+    connection-timeout: 5000
+    context-path: /
+
+#debug: true
+
+spring:
+  # rabbitmq
+    rabbitmq:
+        host: 192.168.185.126
+        port: 5672
+        username: admin
+        password: admin#123
+
+  # redis
+    redis:
+      database: 0
+      host: 192.168.185.126
+      port: 6379
+      pool:
+        #最大连接数
+        max-active: 8
+        #最大阻塞等待时间（负值表示无限制）
+        max-wait: -1
+        #最大空间连接
+        max-idle: 8
+        #最小空闲连接
+        min-idle: 0
+      #连接超时时间(毫秒)
+      timeout: 0
+      #密码
+      password:
+
+  #因为spring-boot-starter-parent会引入spring-boot-starter-jdbc 需要配置数据库连接禁止使用，将spring的自动配置的相关包给过滤掉
+    autoconfigure:
+      exclude:  org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration,org.springframework.boot.autoconfigure.jdbc.DataSourceTransactionManagerAutoConfiguration,org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfiguration
